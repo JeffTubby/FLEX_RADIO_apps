@@ -1,7 +1,7 @@
 # Configuration for FLEX Radio Beacon
 #lat=-35.135731
 #lon=139.249263
-
+import requests
 import aprslib
 from aprslib.packets.position import PositionReport
 import time
@@ -11,6 +11,8 @@ from FLEX_RADIO_get_my_data_funcs import get_flex_callsign as gcs
 from FLEX_RADIO_get_my_data_funcs import get_flex_frequency as gff
 from FLEX_RADIO_get_my_data_funcs import get_flex_mode as gfm
 from FLEX_RADIO_get_my_data_funcs import get_my_location as gml
+from FLEX_RADIO_get_my_data_funcs import get_my_altitude as gma
+
 
 # Time interval for resending APRS packets in minutes
 RESEND_TIME = 15
@@ -40,6 +42,7 @@ PASSCODE = 17888
 SERVER = "aunz.aprs2.net"
 PORT = 14580
 ICON = "-w"
+ALTITUDE = gma()['elevation']
 LATITUDE = -35.135731
 LONGITUDE = 139.249263
 #LATITUDE = None #-35.135731
@@ -60,6 +63,7 @@ POSITION_PACKET = PositionReport(
         "path": ["TCPIP*", "qAC", "T2TAS"],
         "latitude": LATITUDE,
         "longitude": LONGITUDE,
+        "altitude": ALTITUDE,
         "symbol": ICON,
         "comment": "Beacon",
     }
