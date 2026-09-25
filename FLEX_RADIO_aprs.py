@@ -16,23 +16,30 @@ from FLEX_RADIO_get_my_data_funcs import get_my_location as gml
 RESEND_TIME = 15
 
 radio_callsign = gcs()
-raw_frequency = gff() or "0"
-try:
-	radio_frequency = float(str(raw_frequency).split()[0])
-except (TypeError, ValueError):
-	radio_frequency = 0.0
-radio_frequency = f"{radio_frequency:.3f}"
 
-radio_mode = gfm()
-if radio_mode == "DIGU":
-	radio_mode = "FT8"
+
+def refresh_radio_state():
+	global radio_callsign
+	raw_frequency = gff() or "0"
+	try:
+		radio_frequency = float(str(raw_frequency).split()[0])
+	except (TypeError, ValueError):
+		radio_frequency = 0.0
+	formatted_frequency = f"{radio_frequency:.3f}"
+
+	radio_mode = gfm() or "USB"
+	if radio_mode == "DIGU":
+		radio_mode = "FT8"
+
+	radio_callsign = gcs()
+	return formatted_frequency, radio_mode
 
 # APRS Beacon Configuration must be updated with your own callsign, passcode, server, and location information
 CALL = "VK5IU-8"
 PASSCODE = 17888
 SERVER = "aunz.aprs2.net"
 PORT = 14580
-ICON = "i"
+ICON = "-w"
 LATITUDE = -35.135731
 LONGITUDE = 139.249263
 #LATITUDE = None #-35.135731
@@ -46,7 +53,6 @@ else:
 		print("Using predefined location: ", LATITUDE, LONGITUDE)
 
 RESEND_INTERVAL_SECONDS = RESEND_TIME * 60
-MESSAGE = f"{radio_callsign},{radio_frequency},{radio_mode} on air"
 POSITION_PACKET = PositionReport(
     {
         "from": CALL,
@@ -58,7 +64,12 @@ POSITION_PACKET = PositionReport(
         "comment": "Beacon",
     }
 )
-STATUS_PACKET = f"{CALL}>APRS,TCPIP*,qAC,T2TAS:>{MESSAGE}"
+
+
+def build_status_packet():
+	current_frequency, current_mode = refresh_radio_state()
+	message = f"{radio_callsign},{current_frequency},{current_mode} on air"
+	return f"{CALL}>APRS,TCPIP*,qAC,T2TAS:>{message}"
 
 
 def validate_packet(packet):
@@ -71,7 +82,8 @@ def validate_packet(packet):
 
 
 def send_packets():
-	packets_to_send = [POSITION_PACKET, STATUS_PACKET]
+	status_packet = build_status_packet()
+	packets_to_send = [POSITION_PACKET, status_packet]
 	for packet in packets_to_send:
 		try:
 			packet_text = validate_packet(packet)
