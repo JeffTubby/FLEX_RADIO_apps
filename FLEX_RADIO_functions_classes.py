@@ -3,6 +3,7 @@ import socket
 import tkinter as tk
 
 class MyDialog(tk.Frame):
+    """A custom dialog class for interacting with FlexRadio settings."""
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
