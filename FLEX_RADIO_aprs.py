@@ -1,6 +1,12 @@
+# FLEX Radio APRS Beacon Configuration
+# Author: Jeff Tubbenhauer VK5IU
+# Date: 05/09/2026
+
 # Configuration for FLEX Radio Beacon
 #lat=-35.135731
 #lon=139.249263
+
+# External libraries for HTTP requests and APRS protocol handling
 import requests
 import aprslib
 from aprslib.packets.position import PositionReport
@@ -21,6 +27,8 @@ radio_callsign = gcs()
 
 
 def refresh_radio_state():
+	"""Refresh the current state of the radio, including frequency and mode."""	
+	
 	global radio_callsign
 	raw_frequency = gff() or "0"
 	try:

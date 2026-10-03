@@ -1,9 +1,12 @@
-"""Run the WSJT-X spot bridge and APRS beacon together."""
+# FLEX Radio Application Launcher
+# Author: Jeff Tubbenhauer
+# Date: 05/09/2026	
+# This script launches the WSJT-X spot bridge and the FLEX Radio APRS beacon together.
 
 from pathlib import Path
 import subprocess
-import sys
 
+"""Run the WSJT-X spot bridge and APRS beacon together."""
 
 APP_DIR = Path(__file__).resolve().parent
 SCRIPTS = (

@@ -1,8 +1,17 @@
 # This module contains functions to get data from the FLEX radio using its IP and TCP/IP API port.
+# This module provides functions to discover a FlexRadio on the network and retrieve its frequency and callsign.
+# This module requires the 'geocoder' library for network discovery.
+# Finds mode
+# Author: Jeff Tubbenhauer VK5IU
+# Date: 05/09/2026
 
 import socket
+import time
 import geocoder
+
 # FlexRadio IP and TCP/IP API port
+# Replace the RADIO_IP with your FlexRadio's IP address if known.
+# If you leave it as None, the script will attempt to discover the radio on the network.
 RADIO_IP = "192.168.1.132"  # Replace with your radio's IP address
 API_PORT = 4992            # Default TCP Command API port
 

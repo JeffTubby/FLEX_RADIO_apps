@@ -1,3 +1,8 @@
+# FLEX Radio Functions and Classes
+# Author: Jeff Tubbenhauer VK5IU
+# Date: 05/09/2026
+
+"""This module contains utility functions and custom classes for interacting with FlexRadio devices."""     
 import sys
 import socket
 import tkinter as tk
@@ -20,6 +25,7 @@ class MyDialog(tk.Frame):
     
     #---Dialog Box
     def create_widgets(self):
+        """Create the dialog box widgets."""
     #---Get the Radio IP and callsign from radio functions
     
         self.radio_ip = find_flex_radio_ip()
@@ -80,6 +86,7 @@ class MyDialog(tk.Frame):
             button.config(text="No radio", bg="light coral")
 
     def select_and_close(self):
+        """Handle the selection and close the dialog."""
         # Save values directly to the class instance attributes
         self.radio_ip = self.entry1.get()
         self.r_callsign = self.entry2.get()  
