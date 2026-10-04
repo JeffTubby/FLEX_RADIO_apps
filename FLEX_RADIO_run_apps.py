@@ -5,6 +5,7 @@
 
 from pathlib import Path
 import subprocess
+import sys
 
 """Run the WSJT-X spot bridge and APRS beacon together."""
 
